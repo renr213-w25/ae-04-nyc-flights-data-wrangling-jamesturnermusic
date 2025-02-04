@@ -68,7 +68,8 @@ departures <- flights %>%
 ```{r}
 #| label: arr-vars
 
-# add code here
+fli_cont <- flights %>% 
+  select(contains("arr_"))
 ```
 
 ## Exercise 4 - `slice()`
@@ -78,7 +79,8 @@ departures <- flights %>%
 ```{r}
 #| label: slice
 
-# add code here
+flights |>
+  slice(1:5)
 ```
 
 -   Display the last two rows of the `flights` data frame.
@@ -86,7 +88,8 @@ departures <- flights %>%
 ```{r}
 #| label: last-two
 
-# add code here
+flights |>
+  slice(336775:336776)
 ```
 
 ## Exercise 5 - `arrange()`
@@ -96,27 +99,34 @@ departures <- flights %>%
 ```{r}
 #| label: arrange-delays
 
-# add code here
+arr_dep_del_early <- flights |>
+  arrange(dep_delay)
 ```
 
 -   Question: What does it mean for the `dep_delay` to have a negative value?
 
-Add your response here.
+    A negative value tells us that the flight departed early with the value behind the negative telling us how many minutes early it departed before its scheduled departure time.
+
+<!-- -->
 
 -   Arrange the data by descending departure delay, so the flights with the longest departure delays will be at the top.
 
 ```{r}
 #| label: arrange-delays-desc
 
-# add code here
+arr_dep_del_late <- flights |>
+  arrange(-dep_delay)
 ```
 
--   **Your turn:** Create a data frame that only includes the plane tail number (`tailnum`), carrier (`carrier`), and departure delay for the flight with the longest departure delay. What is the plane tail number (`tailnum`) for this flight?
+-   **Your turn:** Create a data frame that only includes the plane tail number (`tailnum`), carrier (`carrier`), and departure delay for the flight with the longest departure delay. What is the plane tail number (`tailnum`) for this flight? **The plane tail number is N38HA**
 
 ```{r}
 #| label: longest-delay
 
-# add code here
+tailnum_delay <- arr_dep_del_late |>
+  select(c(tailnum, carrier, dep_delay)) |> 
+  slice(1)
+print(tailnum_delay)
 ```
 
 ## Exercise 6 - `filter()`
@@ -126,7 +136,9 @@ Add your response here.
 ```{r}
 #| label: rdu
 
-# add code here
+flights_RDU <- flights |>
+  filter(dest == "RDU")
+print(flights_RDU)
 ```
 
 -   Filter for all rows where the destination airport is RDU and the arrival delay is less than 0.
@@ -134,12 +146,13 @@ Add your response here.
 ```{r}
 #| label: rdu-ontime
 
-# add code here
+flights_RDU |>
+  filter(arr_delay <= 0)
 ```
 
 -   **Your turn:** Describe what the code is doing in words.
 
-Add response here.
+The code is taking the flights dataframe and then filtering it to show us the destination column with RDU and GSO as the destination and which both arrived and departed on time (more specifically "early" since zero minutes delayed was excluded. "\<=" would be be more appropriate for specifically flights that are "on-time").
 
 ```{r}
 #| label: nc-early
