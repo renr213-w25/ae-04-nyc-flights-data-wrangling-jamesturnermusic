@@ -13,19 +13,27 @@ library(tidyverse)
 library(nycflights13)
 ```
 
+
+
 ## Exercise 1
 
 **Your turn:** Fill in the blanks:
 
 The `flights` data frame has *337,776* rows. Each row represents a *Flight*.
 
+
+
 ```{r}
 glimpse(flights)
 ```
 
+
+
 ## Exercise 2
 
 **Your turn:** What are the names of the variables in `flights`.
+
+
 
 ```{r}
 #| label: column-names
@@ -33,9 +41,13 @@ glimpse(flights)
 colnames(flights)
 ```
 
+
+
 ## Exercise 3 - `select()`
 
 -   Make a data frame that only contains the variables `dep_delay` and `arr_delay`.
+
+
 
 ```{r}
 #| label: select-vars
@@ -45,7 +57,11 @@ delays <- flights %>%
 delays
 ```
 
+
+
 -   Make a data frame that keeps every variable except `dep_delay`.
+
+
 
 ```{r}
 #| label: exclude-vars
@@ -55,7 +71,11 @@ depart_on_time <- flights %>%
 depart_on_time
 ```
 
+
+
 -   Make a data frame that includes all variables between `year` through `dep_delay` (inclusive). These are all variables that provide information about the departure of each flight.
+
+
 
 ```{r}
 #| label: include-range
@@ -65,7 +85,11 @@ departures <- flights %>%
 departures
 ```
 
+
+
 -   Use the `select` helper `contains()` to make a data frame that includes the variables associated with the arrival, i.e., contains the string `"arr\_"` in the name.
+
+
 
 ```{r}
 #| label: arr-vars
@@ -75,9 +99,13 @@ fli_arrival <- flights %>%
 fli_arrival
 ```
 
+
+
 ## Exercise 4 - `slice()`
 
 -   Display the first five rows of the `flights` data frame.
+
+
 
 ```{r}
 #| label: slice
@@ -86,7 +114,11 @@ flights |>
   slice(1:5)
 ```
 
+
+
 -   Display the last two rows of the `flights` data frame.
+
+
 
 ```{r}
 #| label: last-two
@@ -95,9 +127,13 @@ flights |>
   slice(336775:336776)
 ```
 
+
+
 ## Exercise 5 - `arrange()`
 
 -   Let's arrange the data by departure delay, so the flights with the shortest departure delays will be at the top of the data frame.
+
+
 
 ```{r}
 #| label: arrange-delays
@@ -107,6 +143,8 @@ arr_dep_del_early <- flights |>
 arr_dep_del_early
 ```
 
+
+
 -   Question: What does it mean for the `dep_delay` to have a negative value?
 
     A negative value tells us that the flight departed early with the value behind the negative telling us how many minutes early it departed before its scheduled departure time.
@@ -114,6 +152,8 @@ arr_dep_del_early
 <!-- -->
 
 -   Arrange the data by descending departure delay, so the flights with the longest departure delays will be at the top.
+
+
 
 ```{r}
 #| label: arrange-delays-desc
@@ -123,7 +163,11 @@ arr_dep_del_late <- flights |>
 arr_dep_del_late
 ```
 
+
+
 -   **Your turn:** Create a data frame that only includes the plane tail number (`tailnum`), carrier (`carrier`), and departure delay for the flight with the longest departure delay. What is the plane tail number (`tailnum`) for this flight? **The plane tail number is N38HA**
+
+
 
 ```{r}
 #| label: longest-delay
@@ -134,9 +178,13 @@ tailnum_delay <- arr_dep_del_late |>
 tailnum_delay
 ```
 
+
+
 ## Exercise 6 - `filter()`
 
 -   Filter for all rows where the destination airport is RDU.
+
+
 
 ```{r}
 #| label: rdu
@@ -146,7 +194,11 @@ flights_RDU <- flights |>
 flights_RDU
 ```
 
+
+
 -   Filter for all rows where the destination airport is RDU and the arrival delay is less than 0.
+
+
 
 ```{r}
 #| label: rdu-ontime
@@ -155,9 +207,13 @@ flights_RDU |>
   filter(arr_delay <= 0)
 ```
 
+
+
 -   **Your turn:** Describe what the code is doing in words.
 
 The code is taking the flights dataframe and then filtering it to show us the flights to RDU and GSO airports as the destination only and which either arrived OR departed "early" compared to their scheduled arrival or departure time respectively.
+
+
 
 ```{r}
 #| label: nc-early
@@ -169,6 +225,8 @@ nc_early <- flights |>
   )
 nc_early
 ```
+
+
 
 **Hint:** Logical operators in R:
 
@@ -192,6 +250,8 @@ nc_early
 
 -   Create a frequency table of the destination locations for flights from New York.
 
+
+
 ```{r}
 #| label: count-dest
 
@@ -201,9 +261,13 @@ count_dest <- flights |>
 count_dest
 ```
 
+
+
 -   In which month was there the fewest number of flights? How many flights were there in that month?
 
     ANSWER: November had the fewest flights of any month at only 27268
+
+
 
 ```{r}
 #| label: count-month
@@ -213,9 +277,13 @@ count_month <- flights |>
 count_month
 ```
 
+
+
 -   **Your turn:** On which date (month + day) was there the largest number of flights? How many flights were there on that day?
 
     ANSWER: November 27th had to most flights of any day in the year with 1014 flights.
+
+
 
 ```{r}
 #| label: count-date
@@ -225,9 +293,13 @@ count_date <- flights |>
 count_date
 ```
 
+
+
 ## Exercise 8 - `mutate()`
 
 -   Convert `air_time` (minutes in the air) to hours and then create a new variable, `mph`, the miles per hour of the flight.
+
+
 
 ```{r}
 #| label: calculate-mph
@@ -241,9 +313,13 @@ calculate_mph <- flights |>
 calculate_mph
 ```
 
+
+
 -   **Your turn:** First, count the number of flights each month, and then calculate the proportion of flights in each month. What proportion of flights take place in July?
 
     **ANSWER:** \~8.74% of all flights took place in July
+
+
 
 ```{r}
 #| label: months-prop
@@ -254,9 +330,13 @@ months_prop <- flights |>
 months_prop
 ```
 
+
+
 -   Create a new variable, `rdu_bound`, which indicates whether the flight is to RDU or not. Then, for each departure airport (`origin`), calculate what proportion of flights originating from that airport are to RDU.
 
 ANSWER:
+
+
 
 ```{r}
 #| label: rdu-origin-prop
@@ -270,9 +350,13 @@ rdu_origin_prop <- flights |>
 rdu_origin_prop
 ```
 
+
+
 ## Exercise 9 - `summarize()`
 
 -   Find mean arrival delay for all flights.
+
+
 
 ```{r}
 #| label: find-arrival-delay
@@ -285,9 +369,13 @@ mean_arrival_delay <- flights |>
 mean_arrival_delay
 ```
 
+
+
 ## Exercise 10 - `group_by()`
 
 -   Find mean arrival delay for for each month.
+
+
 
 ```{r}
 #| label: mean-arr-delay-month
@@ -300,9 +388,13 @@ mean_arrival_delay_month <- flights |>
 mean_arrival_delay_month
 ```
 
+
+
 -   **Your turn:** What is the median departure delay for each airports around NYC (`origin`)? Which airport has the shortest median departure delay?
 
 ANSWER: LaGuardia Airport has the shortest median departure delay with the median flight actually leaving 3 minutes early.
+
+
 
 ```{r}
 #| label: median-dep-dely-origin
@@ -315,11 +407,15 @@ median_dep_delay_month <- flights |>
 median_dep_delay_month
 ```
 
+
+
 # Additional Practice
 
 Try these on your own, either in class if you finish early, or after class.
 
 1.  Create a new dataset that only contains flights that do not have a missing departure time. Include the columns `year`, `month`, `day`, `dep_time`, `dep_delay`, and `dep_delay_hours` (the departure delay in hours). *Hint: Note you may need to use `mutate()` to make one or more of these variables.*
+
+
 
 ```{r}
 #| label: add-practice-1
@@ -339,7 +435,11 @@ flights_w_dep_time <- flights |>
 flights_w_dep_time
 ```
 
+
+
 2.  For each airplane (uniquely identified by `tailnum`), use a `group_by()` paired with `summarize()` to find the sample size, mean, and standard deviation of flight distances. Then include only the top 5 and bottom 5 airplanes in terms of mean distance traveled per flight in the final data frame.
+
+
 
 ```{r}
 #| label: add-practice-2
@@ -355,3 +455,4 @@ airplane_details <- flights |>
 
 rbind(head(airplane_details, 5), tail(airplane_details, 5))
 ```
+
